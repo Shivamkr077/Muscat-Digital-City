@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"></head>
+<body>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <div class="card shadow">
+          <div class="card-header">
+            <h3 class="text-center mb-0">Login</h3>
+          </div>
+          <div class="card-body">
+            <form id="loginForm" method="post" action="/loginUser">
+              <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+              </div>
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Login</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+  <script>
+    $(document).ready(function() {
+  $('#loginForm').submit(function(e) {
+    e.preventDefault();
+    const email = $('#email').val();
+    const password = $('#password').val();
+    console.log(email, password);
+    var q = {
+        email: email,
+            password: password
+    }
+    console.log(q);
+    // Send email and password to server for authentication
+    $.ajax({
+		type: "POST",
+		url: "/loginUser",
+		data: q, // serializes the form's elements.
+		success: function (res) {
+			console.log("res",res);
+            //res.redirect(res.href)
+            if(res.message){
+                
+                alert(res.message);
+            }
+            else if(res.href!=undefined)
+            window.location.href = res.href;
+		},
+		error: function (error) {
+			console.log(error);
+		}
+	});
+  });
+});
+
+  </script>
+
+
+</body>
+</html>
